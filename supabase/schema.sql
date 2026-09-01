@@ -114,7 +114,7 @@ security definer
 set search_path = public
 as $$
   insert into public.keyrings (public_id)
-  values (lower(substr(encode(gen_random_bytes(9), 'hex'), 1, 12)))
+values (lower(substr(replace(gen_random_uuid()::text, '-', ''), 1, 12)))
   returning *;
 $$;
 

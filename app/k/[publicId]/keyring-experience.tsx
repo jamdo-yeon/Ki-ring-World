@@ -27,6 +27,7 @@ export function KeyringExperience({
   profile,
   initialUserId = null,
   message,
+  missingEnvVars = [],
 }: {
   publicId: string;
   state: ExperienceState;
@@ -34,6 +35,7 @@ export function KeyringExperience({
   profile?: KeyringProfile;
   initialUserId?: string | null;
   message?: string;
+  missingEnvVars?: string[];
 }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -129,7 +131,13 @@ export function KeyringExperience({
             <>
               <div className="activationIcon">⚙</div>
               <h1>Supabase setup needed</h1>
-              <p>Add the two variables from <code>.env.example</code> to <code>.env.local</code>, then restart Next.js.</p>
+              <p>Add the variables from <code>.env.example</code> to <code>.env.local</code>, then restart Next.js.</p>
+              {missingEnvVars.length > 0 && (
+                <div className="missingEnvMessage">
+                  <strong>Missing:</strong>
+                  {missingEnvVars.map((name) => <code key={name}>{name}</code>)}
+                </div>
+              )}
             </>
           )}
           {state === "not-found" && (

@@ -107,6 +107,8 @@
 
 .claimButton:disabled { opacity: 0.58; cursor: wait; }
 .activationNotice { color: #9c315b; font-weight: 700; }
+.missingEnvMessage { display: grid; gap: 6px; margin-top: 16px; font-size: 11px; }
+.missingEnvMessage code { overflow-wrap: anywhere; }
 .worldSaveNotice { margin: 0; padding: 7px 14px 10px; color: var(--muted); font-size: 10px; }
 
 /* =========================================

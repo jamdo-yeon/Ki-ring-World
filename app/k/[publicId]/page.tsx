@@ -1,5 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
-import { getSupabaseConfig } from "@/lib/supabase/config";
+import {
+  getMissingSupabaseEnvVars,
+  getSupabaseConfig,
+} from "@/lib/supabase/config";
 import type { Keyring, KeyringProfile } from "@/lib/keyrings";
 import { KeyringExperience } from "./keyring-experience";
 
@@ -12,13 +15,27 @@ export default async function KeyringPage({
 }) {
   const { publicId } = await params;
 
-  if (!getSupabaseConfig()) {
-    return <KeyringExperience publicId={publicId} state="not-configured" />;
+  const missingEnvVars = getMissingSupabaseEnvVars();
+
+  if (missingEnvVars.length > 0 || !getSupabaseConfig()) {
+    return (
+      <KeyringExperience
+        publicId={publicId}
+        state="not-configured"
+        missingEnvVars={missingEnvVars}
+      />
+    );
   }
 
   const supabase = await createClient();
   if (!supabase) {
-    return <KeyringExperience publicId={publicId} state="not-configured" />;
+    return (
+      <KeyringExperience
+        publicId={publicId}
+        state="not-configured"
+        missingEnvVars={getMissingSupabaseEnvVars()}
+      />
+    );
   }
 
   const [{ data: keyringData, error: keyringError }, { data: claimsData }] =

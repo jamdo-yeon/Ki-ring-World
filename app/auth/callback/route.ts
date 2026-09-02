@@ -17,5 +17,7 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.redirect(new URL(`${next}?authError=magic-link`, url.origin));
+  const errorUrl = new URL(next, url.origin);
+  errorUrl.searchParams.set("authError", "authentication");
+  return NextResponse.redirect(errorUrl);
 }

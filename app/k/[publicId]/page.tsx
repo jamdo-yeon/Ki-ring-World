@@ -4,16 +4,24 @@ import {
   getSupabaseConfig,
 } from "@/lib/supabase/config";
 import type { Keyring, KeyringProfile } from "@/lib/keyrings";
+import {
+  GUESTBOOK_ENTRY_FIELDS,
+  type ServerGuestbookEntry,
+} from "@/lib/guestbook";
 import { KeyringExperience } from "./keyring-experience";
+import { normalizeVisitCounts } from "@/lib/visits";
 
 export const dynamic = "force-dynamic";
 
 export default async function KeyringPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ publicId: string }>;
+  searchParams: Promise<{ claim?: string }>;
 }) {
   const { publicId } = await params;
+  const { claim } = await searchParams;
 
   const missingEnvVars = getMissingSupabaseEnvVars();
 
@@ -68,15 +76,26 @@ export default async function KeyringPage({
         state="unclaimed"
         keyring={keyring}
         initialUserId={userId}
+        autoClaim={claim === "1"}
       />
     );
   }
 
-  const { data: profileData, error: profileError } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("keyring_id", keyring.id)
-    .maybeSingle();
+  const [
+    { data: profileData, error: profileError },
+    { data: guestbookData, error: guestbookError },
+    { data: visitCountData },
+  ] = await Promise.all([
+    supabase.from("profiles").select("*").eq("keyring_id", keyring.id).maybeSingle(),
+    supabase
+      .from("guestbook_entries")
+      .select(GUESTBOOK_ENTRY_FIELDS)
+      .eq("keyring_id", keyring.id)
+      .order("created_at", { ascending: false }),
+    supabase.rpc("get_keyring_visit_counts", {
+      target_public_id: publicId,
+    }),
+  ]);
 
   if (profileError) {
     return (
@@ -105,6 +124,9 @@ export default async function KeyringPage({
       state="world"
       keyring={keyring}
       profile={profileData as KeyringProfile}
+      initialGuestbookEntries={(guestbookData ?? []) as ServerGuestbookEntry[]}
+      initialGuestbookError={guestbookError?.message}
+      initialVisitCounts={normalizeVisitCounts(visitCountData)}
       initialUserId={userId}
     />
   );

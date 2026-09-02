@@ -25,6 +25,130 @@
   font-size: 10px;
 }
 
+.keyringSessionBar .ownerSignInToggle {
+  border-color: transparent;
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  opacity: 0.78;
+}
+
+.ownerSignInBackdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  padding: max(20px, env(safe-area-inset-top)) 5vw max(20px, env(safe-area-inset-bottom));
+  background: rgba(40, 27, 41, 0.38);
+  overscroll-behavior: contain;
+}
+
+.ownerSignInDialog {
+  width: min(90vw, 360px);
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  overflow: auto;
+  border: 2px solid #65392f;
+  border-radius: 10px;
+  background: #fffaf2;
+  color: #65392f;
+  box-shadow: 0 5px 0 #4b2923, 0 16px 34px rgba(32, 17, 28, 0.35);
+  font: 700 11px "Courier New", monospace;
+}
+
+.ownerSignInTitleBar {
+  min-height: 36px;
+  padding: 5px 7px 5px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 2px solid #65392f;
+  background: linear-gradient(180deg, #ffdce8, #ed8cac 62%, #ce5e84);
+}
+
+.ownerSignInTitleBar h2 {
+  margin: 0;
+  font: 900 11px "Courier New", monospace;
+  letter-spacing: 0.06em;
+}
+
+.ownerSignInTitleBar button {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  padding: 0;
+  border: 1px solid #65392f;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff, #f1a8bd);
+  color: #65392f;
+  font-weight: 900;
+}
+
+.ownerSignInDialog form {
+  padding: 20px;
+  display: grid;
+  gap: 9px;
+}
+
+.ownerSignInDialog label {
+  text-transform: lowercase;
+}
+
+.ownerSignInDialog input,
+.ownerSignInDialog form > button {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #9d5c73;
+  border-radius: 6px;
+  color: inherit;
+  font: inherit;
+}
+
+.ownerSignInDialog input {
+  min-width: 0;
+  padding: 9px 10px;
+  background: #fff;
+  font-size: 16px;
+}
+
+.ownerSignInDialog form > button {
+  margin-top: 4px;
+  padding: 8px 10px;
+  background: linear-gradient(180deg, #fff 0 10%, #f6bfd0 11%, #ed7da3 65%, #c9567f);
+  box-shadow: 0 2px 0 #65392f;
+}
+
+.ownerSignInDialog form > .ownerForgotPassword {
+  min-height: 30px;
+  margin-top: 0;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  color: #8e4662;
+  font-size: 10px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ownerSignInDialog button:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
+.ownerSignInDialog > p {
+  margin: 0 20px 20px;
+  padding: 8px 9px;
+  border: 1px dashed #b66b86;
+  background: #fff2f7;
+  color: #9c315b;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
 .activationPage {
   min-height: 100vh;
   padding: 64px 18px;
@@ -603,6 +727,11 @@ button {
     monospace;
 
   font-size: 9px;
+}
+
+.visitCounter strong {
+  color: inherit;
+  font-weight: 900;
 }
 
 .bio {
@@ -1783,6 +1912,56 @@ button {
   font-size: 11px;
   line-height: 1.5;
   overflow-wrap: anywhere;
+}
+
+.serverGuestbookHeading,
+.serverGuestbookAuthor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.serverGuestbookHeading button,
+.serverGuestbookAuthor button {
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--button) 58%, white);
+  color: var(--muted);
+  font: 700 9px "Courier New", monospace;
+}
+
+.serverGuestbookEntry > div:last-child {
+  min-width: 0;
+}
+
+.serverGuestbookAuthor strong {
+  overflow-wrap: anywhere;
+}
+
+.serverGuestbookAuthor button {
+  flex: 0 0 auto;
+  width: 23px;
+  height: 23px;
+  padding: 0;
+}
+
+.guestbookFeedback {
+  margin: 10px 0 0;
+  padding: 7px 9px;
+  border: 1px dashed var(--border);
+  font-size: 10px;
+}
+
+.guestbookError {
+  background: #fff0f3;
+  color: #9b294e;
+}
+
+.guestbookSuccess {
+  background: #f0fff7;
+  color: #356d53;
 }
 
 /* =========================================

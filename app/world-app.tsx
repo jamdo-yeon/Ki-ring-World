@@ -6,6 +6,7 @@ import {
   useState,
   type ChangeEvent,
   type Dispatch,
+  type ReactNode,
   type SetStateAction,
 } from "react";
 import {
@@ -36,11 +37,15 @@ export function WorldApp({
   mode = "owner",
   onSave,
   localStorageKey,
+  guestbookPanel,
+  visitorCounter,
 }: {
   initialWorld?: WorldData;
   mode?: WorldMode;
   onSave?: (world: WorldData) => Promise<void>;
   localStorageKey?: string;
+  guestbookPanel?: ReactNode;
+  visitorCounter?: ReactNode;
 } = {}) {
   const [activeTab, setActiveTab] =
     useState<Tab>("home");
@@ -479,7 +484,8 @@ export function WorldApp({
 
                       <p className="visitor">
                         {profile.status.toUpperCase()}
-                        {" · "}TODAY 12 · TOTAL 2,406
+                        {" · "}
+                        {visitorCounter ?? "TODAY 12 · TOTAL 2,406"}
                       </p>
                     </div>
 
@@ -640,10 +646,12 @@ export function WorldApp({
             {!customizing &&
               activeTab ===
                 "guestbook" && (
-                <GuestbookPanel
-                  entries={guestbook}
-                  setWorld={setWorld}
-                />
+                guestbookPanel ?? (
+                  <GuestbookPanel
+                    entries={guestbook}
+                    setWorld={setWorld}
+                  />
+                )
               )}
 
             {/* ======================

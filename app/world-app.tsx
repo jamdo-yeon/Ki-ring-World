@@ -427,6 +427,7 @@ export function WorldApp({
       `}
     >
       <div className="phone">
+        <div className="appViewportShell">
 
         {/* ======================
             DESKTOP
@@ -435,6 +436,7 @@ export function WorldApp({
         <section
           className={`
             desktop
+            appScrollArea
             ${
               theme === "blue"
                 ? "xpDesktop"
@@ -791,7 +793,7 @@ export function WorldApp({
         ====================== */}
 
         {!customizing && (
-          <nav className="nav">
+          <nav className="nav mobileBottomNav">
 
             <NavButton
               icon="⌂"
@@ -865,6 +867,8 @@ export function WorldApp({
 
           </nav>
         )}
+
+        </div>
 
         {/* ======================
             STATUS BAR
